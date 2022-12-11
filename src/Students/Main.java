@@ -58,7 +58,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         String classNum = sc.nextLine();
         int sum = 0;
-
         try {
             c = connectDataBase();
             if (c == null) throw new NullPointerException("Connect failed");
@@ -66,13 +65,11 @@ public class Main {
             ResultSet rs = stmt.executeQuery("SELECT * FROM Students");
             while (rs.next()) {
                 String id = rs.getString("id");
-
                 if (id.substring(6, 8).equals(classNum)) {
-                    System.out.println("ID = " + id);
-                    System.out.println();
-
+                    sum++;
                 }
             }
+            System.out.println("班级号为"+classNum+"的班级中, 学生数量为: "+sum);
             rs.close();
             stmt.close();
             c.close();
@@ -84,7 +81,25 @@ public class Main {
     }
 
     public static void callcountAll() {
-
+        Connection c;
+        Statement stmt;
+        int sum = 0;
+        try {
+            c = connectDataBase();
+            if (c == null) throw new NullPointerException("Connect failed");
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Students");
+            while (rs.next()) {
+                    sum++;
+            }
+            System.out.println("全校在读学生数量为: "+sum);
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.out.println("Opened database UNsuccessfully");
+        }
     }
 
     public static void callDeleteStudent() {
@@ -251,16 +266,24 @@ public class Main {
                     System.out.println("NAME = " + name);
                     System.out.println("SCHOOL = " + school);
                     System.out.println();
+                    c.close();
+
                     return true;
                 } else {
+                    c.close();
+
                     return true;
                 }
             } else {
+                c.close();
+
                 return false;
             }
+
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.out.println("Opened database UNsuccessfully");
+
             return false;
         }
     }
