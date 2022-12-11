@@ -115,7 +115,7 @@ public class Main {
             if (rs.next()) {
                 System.out.println("已查询到该学生, 请输入1以确定删除信息");
                 Scanner sc1 = new Scanner(System.in);
-                String confirm = sc.nextLine();
+                String confirm = sc1.nextLine();
                 if (confirm.equals("1")) {
                     String query = "DELETE FROM Students WHERE ID = ?";
                     PreparedStatement preparedStmt = c.prepareStatement(query);
